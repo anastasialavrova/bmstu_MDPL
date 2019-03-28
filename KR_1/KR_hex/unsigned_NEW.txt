@@ -1,0 +1,126 @@
+PUBLIC UB
+PUBLIC UD
+PUBLIC UH
+
+DSEG	SEGMENT PARA PUBLIC 'DATA'
+		NEWLINE	DB	10, 13, '$'
+        SYMBOLS DB '0123456789ABCDEF'
+        NUMBER  DB ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '$' 
+DSEG	ENDS
+
+CSEG	SEGMENT PARA PUBLIC 'CODE'
+		ASSUME CS:CSEG, DS:DSEG
+		
+UB		PROC NEAR 
+		PUSH BP
+		MOV  BP, SP 
+		
+		MOV  BX, [BP + 6] 
+		
+		MOV CX, 16 
+
+UB_1:
+		SHL BX, 1
+		JNC UB_2
+		MOV DH, 1 
+		JMP UB_4		
+
+UB_2:
+		LOOP UB_1
+		INC CX
+		
+UB_3:
+		MOV DH, 0 
+		SHL BX, 1 
+		JNC UB_4 
+		MOV DH, 1 ; DH = 1 ??, if 1
+UB_4:
+		MOV  DL, '0' ; DL = 30
+		ADD  DL, DH ; DL = 30 + DH                  
+			
+		MOV  AH, 2 ; print DL
+		INT  21h
+			
+		LOOP UB_3
+ 
+UB_5:	        MOV  AH, 9
+		MOV  DX, OFFSET NEWLINE
+		INT  21H
+
+		POP BP
+		RET 4 
+UB		ENDP
+		
+UD		PROC NEAR
+		PUSH BP
+		MOV	 BP, SP 
+		MOV	 AX, [BP + 6] 
+		
+UD_1:
+        XOR CX, CX 
+        MOV BX, 10 
+UD_2:
+        XOR DX, DX 
+        DIV BX 
+        ADD DX, '0' 
+        PUSH DX
+        INC CX 
+        CMP AX, 0 
+        JNE UD_2 
+
+        MOV AH, 2 
+UD_3:
+        POP DX 
+        INT 21H
+        LOOP UD_3
+		 
+		MOV  AH, 9
+		MOV  DX, OFFSET NEWLINE
+		INT  21H
+		
+		POP BP
+		RET 4 
+UD		ENDP
+		
+UH		PROC NEAR
+		PUSH BP
+        	PUSH SI
+		MOV  BP, SP
+
+        	MOV DX, [BP + 8] 
+		MOV SI, 16
+		MOV CX, 4
+
+LOOP_H:
+		MOV BL, 4
+
+		XCHG CL, BL 
+		ROL DX, CL
+		XCHG CL, BL
+
+		MOV AL, 0Fh
+		AND AL, DL
+            
+        	MOV BX, OFFSET SYMBOLS  
+        	XLAT
+		
+		MOV CH, AL
+        	XCHG  DL, CH
+		MOV AH, 2
+		INT 21h
+		XCHG  DL, CH
+		
+		XOR CH, CH
+		LOOP LOOP_H
+            
+		MOV AH, 9 
+		MOV DX, OFFSET NEWLINE
+		INT 21H
+		
+		POP SI
+		POP BP
+		RET 4
+UH		ENDP
+		
+CSEG	ENDS
+END
