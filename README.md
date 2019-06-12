@@ -16,3 +16,5 @@
 [**Лабораторная работа №10**](https://github.com/anastasialavrova/bmstu_MDPL/tree/master/lab_10/ConsoleApplication2)
 
 [**Лабораторная работа №11**](https://github.com/anastasialavrova/bmstu_MDPL/tree/master/lab_11/ConsoleApplication2)
+
+[**Лабораторная работа №12**](https://github.com/anastasialavrova/bmstu_MDPL/tree/master/lab_12)
