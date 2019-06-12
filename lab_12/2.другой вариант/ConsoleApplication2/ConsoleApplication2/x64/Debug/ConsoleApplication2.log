@@ -1,0 +1,6 @@
+﻿  Assembling PP.asm...
+PP.asm(1): error A2008: syntax error : integer
+PP.asm(2): error A2008: syntax error : model
+PP.asm(8): error A2070: invalid instruction operands
+PP.asm(13): error A2070: invalid instruction operands
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\BuildCustomizations\masm.targets(50,5): error MSB3721: выход из команды "ml64.exe /c /nologo /Zi /Fo"x64\Debug\PP.obj" /W3 /errorReport:prompt  /TaPP.asm" с кодом "1".
